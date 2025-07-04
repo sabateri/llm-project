@@ -16,8 +16,7 @@ The system:
 
 ## Architecture
 
-```mermaid
-flowchart TD
+```
     A[User Question] --> B[Embed with OpenAI]
     B --> C[Vector Search in Elasticsearch]
     C --> D[Retrieve Top-N Abstracts]
