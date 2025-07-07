@@ -53,9 +53,17 @@ DOMAIN=cs-AI
 
 
 ### 4. Ingest data
+Initialize Elasticsearch with docker
+```
+docker run --name es01 --net elastic -p 9200:9200 \
+  -e "discovery.type=single-node" \
+  -e "xpack.security.enabled=false" \
+  -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+  docker.elastic.co/elasticsearch/elasticsearch:8.13.4 
+```
 Fetch paper metadata from BigQuery and index it into Elasticsearch:
 ```
-python ingest.py
+python3 ingest.py
 ```
 
 This will:
@@ -68,5 +76,12 @@ This will:
 
 ### 5. Run web app
 ```
-python app.py
+python3 app.py
 ```
+
+The app will then run in ```http://127.0.0.1:5000```. Open the browser, paste the url and start interacting with the app!
+
+## Evaluation
+The notebook ```notebooks/rag.ipynb``` also includes retrieval and RAG evaluation. 
+
+The script ```notebooks/evaluation_data_generation.ipynb``` creates the file ```data/arxiv_ground_truth_retrieval.csv``` needed for the retrieval evaluation.
