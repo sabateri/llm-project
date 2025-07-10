@@ -28,6 +28,22 @@ Built using:
 
 ## Getting Started
 
+### Docker
+The easiest way of running the application is using docker
+
+```
+docker compose build
+```
+
+Then we have to ingest the data, for the time being I do
+```
+docker compose exec web python modules/ingest_data.py
+```
+
+Then we can already open the ```http://localhost:5000/``` url in the web browser and start interacting with the application.
+
+## Development
+For user tests and development, it is better to run the Flask app by steps
 ### 1. Prerequisites
 
 - Python 3.11
@@ -49,10 +65,12 @@ pip install -r requirements.txt
 OPENAI_API_KEY=your-openai-key
 GOOGLE_CLOUD_PROJECT=project-id
 DOMAIN=cs-AI
+APP_PORT=5000
 ```
 
 
-### 4. Ingest data
+
+### 4. Data Ingestion
 Initialize Elasticsearch with docker
 ```
 docker run --name es01 --net elastic -p 9200:9200 \

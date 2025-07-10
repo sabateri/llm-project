@@ -4,12 +4,12 @@ from google.cloud import bigquery
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
-load_dotenv()
+#load_dotenv() # for local development
 
 GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", "arxiv-trends")
 DOMAIN = os.getenv("DOMAIN", "cs-AI")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
+GOOGLE_APPLICATION_CREDENTIALS= os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 bq_client = bigquery.Client(project=GOOGLE_CLOUD_PROJECT)
 
@@ -61,7 +61,9 @@ def ingest_pipeline():
     df = get_bq_data()
     df = clean_data(df)
     print(f"Cleaned data: {len(df)} rows")
-    es = Elasticsearch("http://localhost:9200")
+    #es = Elasticsearch("http://localhost:9200") # for local development
+    es = Elasticsearch("http://elasticsearch:9200")
+    print('Ingesting to elastic search')
     ingest_to_elasticsearch(df, es, index_name="arxiv-papers")
 
 if __name__ == "__main__":

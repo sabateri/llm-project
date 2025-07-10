@@ -10,7 +10,8 @@ GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", "arxiv-trends")
 DOMAIN = os.getenv("DOMAIN", "cs-AI")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-es = Elasticsearch("http://localhost:9200")
+#es = Elasticsearch("http://localhost:9200") # for local development
+es = Elasticsearch("http://elasticsearch:9200")
 llm_client = OpenAI()
 INDEX_NAME = "arxiv-papers"
 
@@ -62,6 +63,9 @@ def llm(prompt, relevant_papers, model="gpt-4"):
     }
 
 def rag(query, top_k=5, model="gpt-4"):
+    print('Searching papers')
     relevant_papers = search_papers(query, top_k)
+    print('Building prompt')
     prompt = build_prompt(query, relevant_papers)
+    print('Applying llm')
     return llm(prompt, relevant_papers, model)

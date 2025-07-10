@@ -1,0 +1,51 @@
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DOMAIN=${DOMAIN}
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/keys/arxiv-trends-key.json
+    depends_on:
+      - elasticsearch
+      - postgres
+    volumes:
+      - .:/app
+      - ./keys/arxiv-trends-key.json:/app/keys/arxiv-trends-key.json:ro
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: raguser
+      POSTGRES_PASSWORD: ragpass
+      POSTGRES_DB: ragdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+
+volumes:
+  pg_data:
+  grafana_data:
