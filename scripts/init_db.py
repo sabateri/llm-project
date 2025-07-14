@@ -46,6 +46,13 @@ def create_tables():
                 id SERIAL PRIMARY KEY,
                 query TEXT NOT NULL,
                 answer TEXT NOT NULL,
+                relevance VARCHAR(20),
+                relevance_explanation TEXT,
+                confidence_score FLOAT,
+                accuracy VARCHAR(20),
+                completeness VARCHAR(20),
+                clarity VARCHAR(20),
+                evaluation_error TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         """)
