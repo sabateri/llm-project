@@ -23,16 +23,6 @@ def log_query_to_postgres(query: str, answer: str):
     try:
         conn = psycopg2.connect(**POSTGRES_CONFIG)
         cur = conn.cursor()
-
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS queries (
-                id SERIAL PRIMARY KEY,
-                query TEXT,
-                answer TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        """)
-
         cur.execute("INSERT INTO queries (query, answer) VALUES (%s, %s);", (query, answer))
         conn.commit()
         cur.close()
@@ -44,20 +34,16 @@ def log_query_to_postgres(query: str, answer: str):
 def index():
     answer = None
     query = ""
-
     if request.method == "POST":
         query = request.form.get("query")
         if query:
             try:
                 result = rag(query, top_k=5, model="o4-mini")
                 answer = result["llm_answer"]
-
                 # Log to PostgreSQL
                 log_query_to_postgres(query, answer)
-
             except Exception as e:
                 answer = f"Error: {str(e)}"
-
     return render_template("index.html", answer=answer, query=query)
 
 if __name__ == "__main__":

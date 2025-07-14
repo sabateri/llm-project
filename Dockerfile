@@ -14,6 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application
 COPY . /app/
 
+# Make scripts executable
+RUN chmod +x scripts/setup.sh
+
 # Expose the port the app runs on
 EXPOSE 5000
 
@@ -24,5 +27,6 @@ EXPOSE 5000
 ENV PYTHONUNBUFFERED=1
 
 # Command to run the application
-CMD ["python", "app.py"]
+CMD ["bash", "scripts/setup.sh"]
+# CMD ["python", "app.py"]
 #CMD ["gunicorn", "app:app", "--timeout", "300", "--bind", "0.0.0.0:5000"]
