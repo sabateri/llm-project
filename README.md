@@ -22,7 +22,7 @@ Built using:
 
 ## Demo Screenshot
 
-![demo screenshot](images/demo_pic.png) <!-- You can add your own screenshot here -->
+![demo screenshot](images/demo_pic.png) 
 
 
 
@@ -38,13 +38,9 @@ docker compose up -d
 
 Then we have to ingest the data, for the time being I do
 ```
-docker compose exec web python modules/ingest_data.py
+docker compose exec backend python modules/ingest_data.py
 ```
-We also need to start the React app
-```
-cd frontend
-npm run dev
-```
+
 Then we can already open the ```http://localhost``` url in the web browser and start interacting with the application.
 
 ## Development
