@@ -5,7 +5,7 @@ A web-based research assistant that combines **semantic search**, **LLMs**, and 
 Built using:
 - Elasticsearch for vector-based paper retrieval
 - OpenAI GPT for summarization
-- Flask for a web interface
+- Flask for backend and React for frontend
 - Google BigQuery for scalable scientific data ingestion
 
 ---
@@ -33,14 +33,19 @@ The easiest way of running the application is using docker
 
 ```
 docker compose build
+docker compose up -d
 ```
 
 Then we have to ingest the data, for the time being I do
 ```
 docker compose exec web python modules/ingest_data.py
 ```
-
-Then we can already open the ```http://localhost:5000/``` url in the web browser and start interacting with the application.
+We also need to start the React app
+```
+cd frontend
+npm run dev
+```
+Then we can already open the ```http://localhost``` url in the web browser and start interacting with the application.
 
 ## Development
 For user tests and development, it is better to run the Flask app by steps
@@ -79,9 +84,11 @@ docker run --name es01 --net elastic -p 9200:9200 \
   -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
   docker.elastic.co/elasticsearch/elasticsearch:8.13.4 
 ```
+Reminder: change the ports in ```ingest_data.py``` and ```rag.py``` to ```"http://localhost:9200"``` for local development.
+
 Fetch paper metadata from BigQuery and index it into Elasticsearch:
 ```
-python3 ingest.py
+python3 modules/ingest_data.py
 ```
 
 This will:

@@ -4,7 +4,7 @@ from google.cloud import bigquery
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
-#load_dotenv() # for local development
+# load_dotenv() # for local development
 
 GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", "arxiv-trends")
 DOMAIN = os.getenv("DOMAIN", "cs-AI")
@@ -65,6 +65,6 @@ def ingest_pipeline():
     es = Elasticsearch("http://elasticsearch:9200")
     print('Ingesting to elastic search')
     ingest_to_elasticsearch(df, es, index_name="arxiv-papers")
-
+    print('Data ingested')
 if __name__ == "__main__":
     ingest_pipeline()
