@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+0;10;1cset -e
 
 echo "Starting RAG application..."
 
@@ -14,11 +14,12 @@ python scripts/init_db.py
 
 
 # Ingest data to Elasticsearch
-echo "Ingesting data into Elasticsearch..."
-python modules/ingest_data.py
+#echo "Ingesting data into Elasticsearch..."
+#python modules/ingest_data.py
 
 # Start the Flask application
 echo "Starting Flask app..."
 python app.py
+
 # For production
 # exec gunicorn app:app --timeout 300 --bind 0.0.0.0:5000
