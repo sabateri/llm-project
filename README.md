@@ -1,6 +1,7 @@
 # arXiv LLM Research Assistant
 
 A web-based research assistant that combines **semantic search**, **LLMs**, and **arXiv papers** to help you quickly explore cutting-edge research.
+The database with up-to-date papers in the AI domain is generated and hosted in BigQuery. More information in my [project](https://github.com/sabateri/arxiv-trends.git).
 
 Built using:
 - Elasticsearch for vector-based paper retrieval
@@ -13,7 +14,7 @@ Built using:
 ## What It Does
 
 - Accepts a **natural language research question** (e.g. _"What are the latest methods for fine-tuning LLMs on small datasets?"_)
-- Searches relevant arXiv papers using keyword relevance
+- Searches relevant arXiv papers (in the cs.AI domain) using keyword relevance
 - Builds a contextual prompt from summaries of the top papers
 - Uses GPT-4 to generate a high-quality, concise answer
 - Displays **citations** to the papers used in the answer
